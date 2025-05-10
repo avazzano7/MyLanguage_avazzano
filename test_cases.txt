@@ -5,3 +5,23 @@ print -5
 print -(3 + 2)
 x := 7
 print -x
+
+
+## List head and tail
+print head . [1, 2, 3]
+print tail . [1, 2, 3]
+mylist := [1, 2, 3]
+print head . mylist
+print tail . mylist
+
+
+## Type Checking
+### Valid cases (should have no errors)
+print 3 + 4
+print 10 == 10
+print [1, 2] != [3, 4]
+print head . [1, 2, 3]
+### Invalid cases (should have an error)
+print 1 + true
+print 5 == [1, 2, 3]
+print head . 5

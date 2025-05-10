@@ -30,6 +30,12 @@ def printYellow(s):
 	print(Style.RESET_ALL, end='')
 
 def apply(operation, lhs, rhs):
+	if operation in ['+', '-', '*', '/']:
+		if not (isinstance(lhs, int) and isinstance(rhs, int)):
+			raise RuntimeError(f"Invalid types for '{operation}': {lhs}, {rhs}")
+	if operation in ['==', '!=', '<', '<=', '>', '>=']:
+		if type(lhs) != type(rhs):
+			raise RuntimeError(f"Cannot compare values of different types: {lhs}, {rhs}")
 	if operation == '+':
 		return lhs + rhs
 	elif operation == '-':
@@ -161,14 +167,22 @@ class Value:
 		elif self.dataType == 'function':
 			v = Value('function', {'variable': str(self.variable), 'result': self.result.simplify(valueLookup)})
 		elif self.dataType == 'operation':
-			if self.lhs.dataType == self.rhs.dataType and self.lhs.dataType in ['int', 'bool']:
-				result = apply(self.operation, self.lhs.value, self.rhs.value)
+			lhs = self.lhs.simplify(valueLookup)
+			rhs = self.rhs.simplify(valueLookup)
+
+			if lhs.dataType == 'id' and lhs.id in valueLookup:
+				lhs = valueLookup[lhs.id].simplify(valueLookup)
+			if rhs.dataType == 'id' and rhs.id in valueLookup:
+				rhs = valueLookup[rhs.id].simplify(valueLookup)
+
+			if lhs.dataType == rhs.dataType and lhs.dataType in ['int', 'bool']:
+				result = apply(self.operation, lhs.value, rhs.value)
 				if self.operation in ['+', '-', '/', '*']:
-					v = Value(self.lhs.dataType, {'value': result})
+					v = Value(lhs.dataType, {'value': result})
 				else:
 					v = Value('bool', {'value': result})
 			else:
-				v = Value('operation', {'lhs': self.lhs.simplify(valueLookup), 'operation': self.operation, 'rhs': self.rhs.simplify(valueLookup)})
+				raise RuntimeError(f"Incompatible types for operation '{self.operation}': {lhs.dataType} and {rhs.dataType}")
 		elif self.dataType == 'id':
 			v = Value('id', {'id': self.id})
 		elif self.dataType == 'conditional':
@@ -453,17 +467,22 @@ class MyParser(Parser):
 		if DEBUG: printGreen(f'Rule: expr COMMA comma_sep_list -> comma_sep_list ({repr(v)})')
 		return v
 		
-	@_('HEAD SEP list')
-	def term(self, p):
-		v = p.list.elements[0]
-		if DEBUG: printGreen(f'Rule: HEAD list -> term ({repr(v)})')
-		return v
+	@_('HEAD SEP expr')
+	def factor(self, p):
+		simplified = p.expr.simplify(self._values)
+		if simplified.dataType != 'list':
+			raise RuntimeError(f"head applied to non-list: {simplified}")
+		if not simplified.elements:
+			raise RuntimeError("Can't take the head of empty list")
+		return simplified.elements[0]
 		
-	@_('TAIL SEP list')
-	def term(self, p):
-		v = Value('list', {'elements': p.list.elements[1:]})
-		if DEBUG: printGreen(f'Rule: TAIL list -> term ({repr(v)})')
-		return v
+	@_('TAIL SEP expr')
+	def factor(self, p):
+		simplified = p.expr.simplify(self._values)
+		if simplified.dataType != 'list':
+			raise RuntimeError(f"tail applied to non-list: {simplified}")
+		return Value('list', {'elements': simplified.elements[1:]})
+
 	@_('ADD_OP factor')
 	def factor(self, p):
 		if p[0] == '-':
