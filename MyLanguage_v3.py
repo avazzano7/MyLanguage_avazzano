@@ -307,7 +307,8 @@ class MyParser(Parser):
 		
 	@_('PRINT expr_list')
 	def statement(self, p):
-		s = str(p.expr_list)
+		result = p.expr_list.simplify(self._values)
+		s = str(result)
 		while s.startswith('(') and s.endswith(')'):
 			s = s[1:-1]
 		print(s)
@@ -463,6 +464,12 @@ class MyParser(Parser):
 		v = Value('list', {'elements': p.list.elements[1:]})
 		if DEBUG: printGreen(f'Rule: TAIL list -> term ({repr(v)})')
 		return v
+	@_('ADD_OP factor')
+	def factor(self, p):
+		if p[0] == '-':
+			return Value('operation', {'lhs': Value('int', {'value': 0}), 'operation': '-', 'rhs': p.factor})
+		else:
+			return p.factor
 
 if __name__ == '__main__':
 	lexer = MyLexer()
