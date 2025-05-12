@@ -31,7 +31,7 @@ def printYellow(s):
 
 def apply(operation, lhs, rhs):
 	if operation in ['+', '-', '*', '/']:
-		if not (isinstance(lhs, int) and isinstance(rhs, int)):
+		if not ((isinstance(lhs, int) and isinstance(rhs, int)) or (isinstance(lhs, str) and isinstance(rhs, str) and operation == '+')):
 			raise RuntimeError(f"Invalid types for '{operation}': {lhs}, {rhs}")
 	if operation in ['==', '!=', '<', '<=', '>', '>=']:
 		if type(lhs) != type(rhs):
@@ -179,14 +179,18 @@ class Value:
 			if rhs.dataType == 'id' and rhs.id in valueLookup:
 				rhs = valueLookup[rhs.id].simplify(valueLookup)
 
-			if lhs.dataType == rhs.dataType and lhs.dataType in ['int', 'bool']:
+			# Check for valid types
+			if lhs.dataType == rhs.dataType and lhs.dataType in ['int', 'bool', 'string']:
 				result = apply(self.operation, lhs.value, rhs.value)
-				if self.operation in ['+', '-', '/', '*']:
-					v = Value(lhs.dataType, {'value': result})
+				if lhs.dataType == 'string' and self.operation == '+':
+					v = Value('string', {'value': result})
+				elif self.operation in ['+', '-', '*', '/']:
+					v = Value('int', {'value': result})
 				else:
 					v = Value('bool', {'value': result})
 			else:
 				raise RuntimeError(f"Incompatible types for operation '{self.operation}': {lhs.dataType} and {rhs.dataType}")
+
 		elif self.dataType == 'id':
 			v = Value('id', {'id': self.id})
 		elif self.dataType == 'conditional':

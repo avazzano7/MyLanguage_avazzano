@@ -31,6 +31,9 @@ nums := [5, 2, 9]
 print sort . nums
 
 
-# Strings
-greeting := "Hello, world!"
+# Strings and string operations
+greeting := "Hello, " + "world!"
 print greeting
+print "abc" == "abc"
+print "abc" != "def"
+print "abc" == "xyz"
