@@ -267,7 +267,7 @@ class MyLexer(Lexer):
 			   PRINT, DUMP,
 			   IF, THEN, ELSE, ENDIF,
 			   LBRACKET, RBRACKET, COMMA,
-			   HEAD, TAIL, SORT }
+			   HEAD, TAIL, SORT, APPEND }
 
 	# String containing ignored characters
 	ignore = ' \t'
@@ -309,6 +309,7 @@ class MyLexer(Lexer):
 	ID['head'] = HEAD
 	ID['tail'] = TAIL
 	ID['sort'] = SORT
+	ID['append'] = APPEND
 
 	ignore_comment = r'\#.*'
 
@@ -548,6 +549,24 @@ class MyParser(Parser):
 		result.extend(left)
 		result.extend(right)
 		return result
+			
+	@_('APPEND SEP ID SEP expr')
+	def statement(self, p):
+		var_name = p.ID
+		elem = p.expr
+
+		if var_name in self._values:
+			target = self._values[var_name]
+			if target.dataType == 'list':
+				target.elements.append(elem)
+				return target
+			else:
+				raise RuntimeError(f"Variable '{var_name}' is not a list")
+		else:
+			raise RuntimeError(f"Undefined variable: {var_name}")
+
+
+
 
 
 if __name__ == '__main__':

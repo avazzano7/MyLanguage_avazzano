@@ -37,3 +37,9 @@ print greeting
 print "abc" == "abc"
 print "abc" != "def"
 print "abc" == "xyz"
+
+
+# List append
+myList := [1, 2]
+append . myList . 3
+print myList
