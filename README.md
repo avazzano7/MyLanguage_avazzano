@@ -12,7 +12,8 @@ Type Checking
 sort function for lists
 string datatype and string operations
 append function for lists
-length function for lists
+length function for lists and strings
+logical bool operators (AND, NOT, OR)
 
 
 Code to run tests is located in test_cases.txt
