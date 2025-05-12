@@ -255,7 +255,7 @@ class MyLexer(Lexer):
 			   PRINT, DUMP,
 			   IF, THEN, ELSE, ENDIF,
 			   LBRACKET, RBRACKET, COMMA,
-			   HEAD, TAIL }
+			   HEAD, TAIL, SORT }
 
 	# String containing ignored characters
 	ignore = ' \t'
@@ -291,6 +291,7 @@ class MyLexer(Lexer):
 	ID['endif'] = ENDIF
 	ID['head'] = HEAD
 	ID['tail'] = TAIL
+	ID['sort'] = SORT
 
 	ignore_comment = r'\#.*'
 
@@ -489,6 +490,44 @@ class MyParser(Parser):
 			return Value('operation', {'lhs': Value('int', {'value': 0}), 'operation': '-', 'rhs': p.factor})
 		else:
 			return p.factor
+		
+	@_('SORT SEP expr')
+	def factor(self, p):
+		simplified = p.expr.simplify(self._values)
+		if simplified.dataType != 'list':
+			raise RuntimeError(f"sort applied to non-list: {simplified}")
+		sorted_list = self.recursive_sort(simplified.elements)
+		return Value('list', {'elements': sorted_list})
+	
+	
+	def recursive_sort(self, elements):
+		if len(elements) <= 1:
+			return elements
+		
+		mid = len(elements) // 2
+		left = self.recursive_sort(elements[:mid])
+		right = self.recursive_sort(elements[mid:])
+		
+		return self.merge(left, right)
+
+	def merge(self, left, right):
+		result = []
+		while left and right:
+			left_elem = left[0].simplify(self._values)
+			right_elem = right[0].simplify(self._values)
+
+			if left_elem.dataType != 'int' or right_elem.dataType != 'int':
+				raise RuntimeError("Sorting is only supported for integer lists")
+
+			if left_elem.value <= right_elem.value:
+				result.append(left.pop(0))
+			else:
+				result.append(right.pop(0))
+
+		result.extend(left)
+		result.extend(right)
+		return result
+
 
 if __name__ == '__main__':
 	lexer = MyLexer()
