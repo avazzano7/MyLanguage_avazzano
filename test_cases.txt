@@ -34,6 +34,7 @@ print sort . nums
 # Strings and string operations
 greeting := "Hello, " + "world!"
 print greeting
+print length . greeting
 print "abc" == "abc"
 print "abc" != "def"
 print "abc" == "xyz"
@@ -43,3 +44,14 @@ print "abc" == "xyz"
 myList := [1, 2]
 append . myList . 3
 print myList
+
+
+# List length
+myList := [1, 2, 3]
+print length . myList
+
+
+# Logical bool operators (AND, NOT, OR)
+print true and true
+print true or false
+print not false

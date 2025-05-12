@@ -7,67 +7,75 @@ Rule 3     statement -> PRINT expr_list
 Rule 4     statement -> ID ASSIGN expr_list
 Rule 5     expr_list -> expr
 Rule 6     expr_list -> expr SEP expr_list
-Rule 7     expr -> list
-Rule 8     expr -> term COMPARE_OP term
-Rule 9     expr -> term EQUAL_OP term
-Rule 10    expr -> IF expr THEN expr ELSE expr ENDIF
-Rule 11    expr -> term
-Rule 12    expr -> expr ADD_OP term
-Rule 13    expr -> LAMBDA ID ARROW expr_list
-Rule 14    term -> factor
-Rule 15    term -> term MULT_OP factor
-Rule 16    factor -> SORT SEP expr
-Rule 17    factor -> ADD_OP factor
-Rule 18    factor -> TAIL SEP expr
-Rule 19    factor -> HEAD SEP expr
-Rule 20    factor -> LPAREN expr_list RPAREN
-Rule 21    factor -> ID
-Rule 22    factor -> STRING
-Rule 23    factor -> NUMBER
-Rule 24    list -> LBRACKET comma_sep_list RBRACKET
-Rule 25    list -> LBRACKET RBRACKET
-Rule 26    comma_sep_list -> expr COMMA comma_sep_list
-Rule 27    comma_sep_list -> expr
+Rule 7     expr -> NOT expr
+Rule 8     expr -> expr OR expr
+Rule 9     expr -> expr AND expr
+Rule 10    expr -> list
+Rule 11    expr -> term COMPARE_OP term
+Rule 12    expr -> term EQUAL_OP term
+Rule 13    expr -> IF expr THEN expr ELSE expr ENDIF
+Rule 14    expr -> term
+Rule 15    expr -> expr ADD_OP term
+Rule 16    expr -> LAMBDA ID ARROW expr_list
+Rule 17    term -> factor
+Rule 18    term -> term MULT_OP factor
+Rule 19    factor -> LENGTH SEP expr
+Rule 20    factor -> SORT SEP expr
+Rule 21    factor -> ADD_OP factor
+Rule 22    factor -> TAIL SEP expr
+Rule 23    factor -> HEAD SEP expr
+Rule 24    factor -> LPAREN expr_list RPAREN
+Rule 25    factor -> ID
+Rule 26    factor -> STRING
+Rule 27    factor -> NUMBER
+Rule 28    list -> LBRACKET comma_sep_list RBRACKET
+Rule 29    list -> LBRACKET RBRACKET
+Rule 30    comma_sep_list -> expr COMMA comma_sep_list
+Rule 31    comma_sep_list -> expr
 
 Terminals, with rules where they appear:
 
-ADD_OP               : 12 17
+ADD_OP               : 15 21
+AND                  : 9
 APPEND               : 1
-ARROW                : 13
+ARROW                : 16
 ASSIGN               : 4
-COMMA                : 26
-COMPARE_OP           : 8
+COMMA                : 30
+COMPARE_OP           : 11
 DUMP                 : 2
-ELSE                 : 10
-ENDIF                : 10
-EQUAL_OP             : 9
-HEAD                 : 19
-ID                   : 1 4 13 21
-IF                   : 10
-LAMBDA               : 13
-LBRACKET             : 24 25
-LPAREN               : 20
-MULT_OP              : 15
-NUMBER               : 23
+ELSE                 : 13
+ENDIF                : 13
+EQUAL_OP             : 12
+HEAD                 : 23
+ID                   : 1 4 16 25
+IF                   : 13
+LAMBDA               : 16
+LBRACKET             : 28 29
+LENGTH               : 19
+LPAREN               : 24
+MULT_OP              : 18
+NOT                  : 7
+NUMBER               : 27
+OR                   : 8
 PRINT                : 3
-RBRACKET             : 24 25
-RPAREN               : 20
-SEP                  : 1 1 6 16 18 19
-SORT                 : 16
-STRING               : 22
-TAIL                 : 18
-THEN                 : 10
+RBRACKET             : 28 29
+RPAREN               : 24
+SEP                  : 1 1 6 19 20 22 23
+SORT                 : 20
+STRING               : 26
+TAIL                 : 22
+THEN                 : 13
 error                : 
 
 Nonterminals, with rules where they appear:
 
-comma_sep_list       : 24 26
-expr                 : 1 5 6 10 10 10 12 16 18 19 26 27
-expr_list            : 3 4 6 13 20
-factor               : 14 15 17
-list                 : 7
+comma_sep_list       : 28 30
+expr                 : 1 5 6 7 8 8 9 9 13 13 13 15 19 20 22 23 30 31
+expr_list            : 3 4 6 16 24
+factor               : 17 18 21
+list                 : 10
 statement            : 0
-term                 : 8 8 9 9 11 12 15
+term                 : 11 11 12 12 14 15 18
 
 
 state 0
@@ -112,47 +120,53 @@ state 5
     (3) statement -> PRINT . expr_list
     (5) expr_list -> . expr
     (6) expr_list -> . expr SEP expr_list
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
     expr_list                      shift and go to state 8
     expr                           shift and go to state 9
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 6
 
     (1) statement -> APPEND SEP . ID SEP expr
-    ID              shift and go to state 24
+    ID              shift and go to state 26
 
 
 state 7
@@ -160,42 +174,48 @@ state 7
     (4) statement -> ID ASSIGN . expr_list
     (5) expr_list -> . expr
     (6) expr_list -> . expr SEP expr_list
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
-    expr_list                      shift and go to state 25
+    expr_list                      shift and go to state 27
     expr                           shift and go to state 9
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 8
 
@@ -207,1097 +227,1563 @@ state 9
 
     (5) expr_list -> expr .
     (6) expr_list -> expr . SEP expr_list
-    (12) expr -> expr . ADD_OP term
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
   ! shift/reduce conflict for SEP resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
   ! shift/reduce conflict for ADD_OP resolved as shift
     $end            reduce using rule 5 (expr_list -> expr .)
     RPAREN          reduce using rule 5 (expr_list -> expr .)
-    COMPARE_OP      reduce using rule 5 (expr_list -> expr .)
-    EQUAL_OP        reduce using rule 5 (expr_list -> expr .)
-    MULT_OP         reduce using rule 5 (expr_list -> expr .)
     THEN            reduce using rule 5 (expr_list -> expr .)
     COMMA           reduce using rule 5 (expr_list -> expr .)
     RBRACKET        reduce using rule 5 (expr_list -> expr .)
+    COMPARE_OP      reduce using rule 5 (expr_list -> expr .)
+    EQUAL_OP        reduce using rule 5 (expr_list -> expr .)
+    MULT_OP         reduce using rule 5 (expr_list -> expr .)
     ELSE            reduce using rule 5 (expr_list -> expr .)
     ENDIF           reduce using rule 5 (expr_list -> expr .)
-    SEP             shift and go to state 26
-    ADD_OP          shift and go to state 27
+    SEP             shift and go to state 28
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
 
 state 10
 
-    (7) expr -> list .
-    SEP             reduce using rule 7 (expr -> list .)
-    ADD_OP          reduce using rule 7 (expr -> list .)
-    $end            reduce using rule 7 (expr -> list .)
-    THEN            reduce using rule 7 (expr -> list .)
-    COMMA           reduce using rule 7 (expr -> list .)
-    RBRACKET        reduce using rule 7 (expr -> list .)
-    RPAREN          reduce using rule 7 (expr -> list .)
-    COMPARE_OP      reduce using rule 7 (expr -> list .)
-    EQUAL_OP        reduce using rule 7 (expr -> list .)
-    MULT_OP         reduce using rule 7 (expr -> list .)
-    ELSE            reduce using rule 7 (expr -> list .)
-    ENDIF           reduce using rule 7 (expr -> list .)
+    (7) expr -> NOT . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr                           shift and go to state 32
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 11
 
-    (8) expr -> term . COMPARE_OP term
-    (9) expr -> term . EQUAL_OP term
-    (11) expr -> term .
-    (15) term -> term . MULT_OP factor
-  ! shift/reduce conflict for COMPARE_OP resolved as shift
-  ! shift/reduce conflict for EQUAL_OP resolved as shift
-  ! shift/reduce conflict for MULT_OP resolved as shift
-    COMPARE_OP      shift and go to state 28
-    EQUAL_OP        shift and go to state 29
-    SEP             reduce using rule 11 (expr -> term .)
-    ADD_OP          reduce using rule 11 (expr -> term .)
-    $end            reduce using rule 11 (expr -> term .)
-    THEN            reduce using rule 11 (expr -> term .)
-    COMMA           reduce using rule 11 (expr -> term .)
-    RBRACKET        reduce using rule 11 (expr -> term .)
-    RPAREN          reduce using rule 11 (expr -> term .)
-    ELSE            reduce using rule 11 (expr -> term .)
-    ENDIF           reduce using rule 11 (expr -> term .)
-    MULT_OP         shift and go to state 30
+    (10) expr -> list .
+    SEP             reduce using rule 10 (expr -> list .)
+    OR              reduce using rule 10 (expr -> list .)
+    AND             reduce using rule 10 (expr -> list .)
+    ADD_OP          reduce using rule 10 (expr -> list .)
+    $end            reduce using rule 10 (expr -> list .)
+    THEN            reduce using rule 10 (expr -> list .)
+    COMMA           reduce using rule 10 (expr -> list .)
+    RBRACKET        reduce using rule 10 (expr -> list .)
+    RPAREN          reduce using rule 10 (expr -> list .)
+    COMPARE_OP      reduce using rule 10 (expr -> list .)
+    EQUAL_OP        reduce using rule 10 (expr -> list .)
+    MULT_OP         reduce using rule 10 (expr -> list .)
+    ELSE            reduce using rule 10 (expr -> list .)
+    ENDIF           reduce using rule 10 (expr -> list .)
 
 
 state 12
 
-    (10) expr -> IF . expr THEN expr ELSE expr ENDIF
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (11) expr -> term . COMPARE_OP term
+    (12) expr -> term . EQUAL_OP term
+    (14) expr -> term .
+    (18) term -> term . MULT_OP factor
+  ! shift/reduce conflict for COMPARE_OP resolved as shift
+  ! shift/reduce conflict for EQUAL_OP resolved as shift
+  ! shift/reduce conflict for MULT_OP resolved as shift
+    COMPARE_OP      shift and go to state 33
+    EQUAL_OP        shift and go to state 34
+    SEP             reduce using rule 14 (expr -> term .)
+    OR              reduce using rule 14 (expr -> term .)
+    AND             reduce using rule 14 (expr -> term .)
+    ADD_OP          reduce using rule 14 (expr -> term .)
+    $end            reduce using rule 14 (expr -> term .)
+    THEN            reduce using rule 14 (expr -> term .)
+    COMMA           reduce using rule 14 (expr -> term .)
+    RBRACKET        reduce using rule 14 (expr -> term .)
+    RPAREN          reduce using rule 14 (expr -> term .)
+    ELSE            reduce using rule 14 (expr -> term .)
+    ENDIF           reduce using rule 14 (expr -> term .)
+    MULT_OP         shift and go to state 35
 
-    expr                           shift and go to state 31
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 13
 
-    (17) factor -> ADD_OP . factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (13) expr -> IF . expr THEN expr ELSE expr ENDIF
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
-    factor                         shift and go to state 32
+    expr                           shift and go to state 36
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 14
 
-    (13) expr -> LAMBDA . ID ARROW expr_list
-    ID              shift and go to state 33
+    (21) factor -> ADD_OP . factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    factor                         shift and go to state 37
 
 state 15
 
-    (21) factor -> ID .
-    COMPARE_OP      reduce using rule 21 (factor -> ID .)
-    EQUAL_OP        reduce using rule 21 (factor -> ID .)
-    MULT_OP         reduce using rule 21 (factor -> ID .)
-    SEP             reduce using rule 21 (factor -> ID .)
-    ADD_OP          reduce using rule 21 (factor -> ID .)
-    $end            reduce using rule 21 (factor -> ID .)
-    THEN            reduce using rule 21 (factor -> ID .)
-    COMMA           reduce using rule 21 (factor -> ID .)
-    RBRACKET        reduce using rule 21 (factor -> ID .)
-    RPAREN          reduce using rule 21 (factor -> ID .)
-    ELSE            reduce using rule 21 (factor -> ID .)
-    ENDIF           reduce using rule 21 (factor -> ID .)
+    (16) expr -> LAMBDA . ID ARROW expr_list
+    ID              shift and go to state 38
 
 
 state 16
 
-    (24) list -> LBRACKET . comma_sep_list RBRACKET
-    (25) list -> LBRACKET . RBRACKET
-    (26) comma_sep_list -> . expr COMMA comma_sep_list
-    (27) comma_sep_list -> . expr
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    RBRACKET        shift and go to state 35
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (25) factor -> ID .
+    COMPARE_OP      reduce using rule 25 (factor -> ID .)
+    EQUAL_OP        reduce using rule 25 (factor -> ID .)
+    MULT_OP         reduce using rule 25 (factor -> ID .)
+    SEP             reduce using rule 25 (factor -> ID .)
+    OR              reduce using rule 25 (factor -> ID .)
+    AND             reduce using rule 25 (factor -> ID .)
+    ADD_OP          reduce using rule 25 (factor -> ID .)
+    $end            reduce using rule 25 (factor -> ID .)
+    THEN            reduce using rule 25 (factor -> ID .)
+    COMMA           reduce using rule 25 (factor -> ID .)
+    RBRACKET        reduce using rule 25 (factor -> ID .)
+    RPAREN          reduce using rule 25 (factor -> ID .)
+    ELSE            reduce using rule 25 (factor -> ID .)
+    ENDIF           reduce using rule 25 (factor -> ID .)
 
-    comma_sep_list                 shift and go to state 34
-    expr                           shift and go to state 36
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 17
 
-    (14) term -> factor .
-    COMPARE_OP      reduce using rule 14 (term -> factor .)
-    EQUAL_OP        reduce using rule 14 (term -> factor .)
-    MULT_OP         reduce using rule 14 (term -> factor .)
-    SEP             reduce using rule 14 (term -> factor .)
-    ADD_OP          reduce using rule 14 (term -> factor .)
-    $end            reduce using rule 14 (term -> factor .)
-    THEN            reduce using rule 14 (term -> factor .)
-    COMMA           reduce using rule 14 (term -> factor .)
-    RBRACKET        reduce using rule 14 (term -> factor .)
-    RPAREN          reduce using rule 14 (term -> factor .)
-    ELSE            reduce using rule 14 (term -> factor .)
-    ENDIF           reduce using rule 14 (term -> factor .)
+    (28) list -> LBRACKET . comma_sep_list RBRACKET
+    (29) list -> LBRACKET . RBRACKET
+    (30) comma_sep_list -> . expr COMMA comma_sep_list
+    (31) comma_sep_list -> . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    RBRACKET        shift and go to state 40
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    comma_sep_list                 shift and go to state 39
+    expr                           shift and go to state 41
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 18
 
-    (16) factor -> SORT . SEP expr
-    SEP             shift and go to state 37
+    (17) term -> factor .
+    COMPARE_OP      reduce using rule 17 (term -> factor .)
+    EQUAL_OP        reduce using rule 17 (term -> factor .)
+    MULT_OP         reduce using rule 17 (term -> factor .)
+    SEP             reduce using rule 17 (term -> factor .)
+    OR              reduce using rule 17 (term -> factor .)
+    AND             reduce using rule 17 (term -> factor .)
+    ADD_OP          reduce using rule 17 (term -> factor .)
+    $end            reduce using rule 17 (term -> factor .)
+    THEN            reduce using rule 17 (term -> factor .)
+    COMMA           reduce using rule 17 (term -> factor .)
+    RBRACKET        reduce using rule 17 (term -> factor .)
+    RPAREN          reduce using rule 17 (term -> factor .)
+    ELSE            reduce using rule 17 (term -> factor .)
+    ENDIF           reduce using rule 17 (term -> factor .)
 
 
 state 19
 
-    (18) factor -> TAIL . SEP expr
-    SEP             shift and go to state 38
+    (19) factor -> LENGTH . SEP expr
+    SEP             shift and go to state 42
 
 
 state 20
 
-    (19) factor -> HEAD . SEP expr
-    SEP             shift and go to state 39
+    (20) factor -> SORT . SEP expr
+    SEP             shift and go to state 43
 
 
 state 21
 
-    (20) factor -> LPAREN . expr_list RPAREN
-    (5) expr_list -> . expr
-    (6) expr_list -> . expr SEP expr_list
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (22) factor -> TAIL . SEP expr
+    SEP             shift and go to state 44
 
-    expr_list                      shift and go to state 40
-    expr                           shift and go to state 9
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 22
 
-    (22) factor -> STRING .
-    COMPARE_OP      reduce using rule 22 (factor -> STRING .)
-    EQUAL_OP        reduce using rule 22 (factor -> STRING .)
-    MULT_OP         reduce using rule 22 (factor -> STRING .)
-    SEP             reduce using rule 22 (factor -> STRING .)
-    ADD_OP          reduce using rule 22 (factor -> STRING .)
-    $end            reduce using rule 22 (factor -> STRING .)
-    THEN            reduce using rule 22 (factor -> STRING .)
-    COMMA           reduce using rule 22 (factor -> STRING .)
-    RBRACKET        reduce using rule 22 (factor -> STRING .)
-    RPAREN          reduce using rule 22 (factor -> STRING .)
-    ELSE            reduce using rule 22 (factor -> STRING .)
-    ENDIF           reduce using rule 22 (factor -> STRING .)
+    (23) factor -> HEAD . SEP expr
+    SEP             shift and go to state 45
 
 
 state 23
 
-    (23) factor -> NUMBER .
-    COMPARE_OP      reduce using rule 23 (factor -> NUMBER .)
-    EQUAL_OP        reduce using rule 23 (factor -> NUMBER .)
-    MULT_OP         reduce using rule 23 (factor -> NUMBER .)
-    SEP             reduce using rule 23 (factor -> NUMBER .)
-    ADD_OP          reduce using rule 23 (factor -> NUMBER .)
-    $end            reduce using rule 23 (factor -> NUMBER .)
-    THEN            reduce using rule 23 (factor -> NUMBER .)
-    COMMA           reduce using rule 23 (factor -> NUMBER .)
-    RBRACKET        reduce using rule 23 (factor -> NUMBER .)
-    RPAREN          reduce using rule 23 (factor -> NUMBER .)
-    ELSE            reduce using rule 23 (factor -> NUMBER .)
-    ENDIF           reduce using rule 23 (factor -> NUMBER .)
+    (24) factor -> LPAREN . expr_list RPAREN
+    (5) expr_list -> . expr
+    (6) expr_list -> . expr SEP expr_list
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr_list                      shift and go to state 46
+    expr                           shift and go to state 9
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 24
 
-    (1) statement -> APPEND SEP ID . SEP expr
-    SEP             shift and go to state 41
+    (26) factor -> STRING .
+    COMPARE_OP      reduce using rule 26 (factor -> STRING .)
+    EQUAL_OP        reduce using rule 26 (factor -> STRING .)
+    MULT_OP         reduce using rule 26 (factor -> STRING .)
+    SEP             reduce using rule 26 (factor -> STRING .)
+    OR              reduce using rule 26 (factor -> STRING .)
+    AND             reduce using rule 26 (factor -> STRING .)
+    ADD_OP          reduce using rule 26 (factor -> STRING .)
+    $end            reduce using rule 26 (factor -> STRING .)
+    THEN            reduce using rule 26 (factor -> STRING .)
+    COMMA           reduce using rule 26 (factor -> STRING .)
+    RBRACKET        reduce using rule 26 (factor -> STRING .)
+    RPAREN          reduce using rule 26 (factor -> STRING .)
+    ELSE            reduce using rule 26 (factor -> STRING .)
+    ENDIF           reduce using rule 26 (factor -> STRING .)
 
 
 state 25
+
+    (27) factor -> NUMBER .
+    COMPARE_OP      reduce using rule 27 (factor -> NUMBER .)
+    EQUAL_OP        reduce using rule 27 (factor -> NUMBER .)
+    MULT_OP         reduce using rule 27 (factor -> NUMBER .)
+    SEP             reduce using rule 27 (factor -> NUMBER .)
+    OR              reduce using rule 27 (factor -> NUMBER .)
+    AND             reduce using rule 27 (factor -> NUMBER .)
+    ADD_OP          reduce using rule 27 (factor -> NUMBER .)
+    $end            reduce using rule 27 (factor -> NUMBER .)
+    THEN            reduce using rule 27 (factor -> NUMBER .)
+    COMMA           reduce using rule 27 (factor -> NUMBER .)
+    RBRACKET        reduce using rule 27 (factor -> NUMBER .)
+    RPAREN          reduce using rule 27 (factor -> NUMBER .)
+    ELSE            reduce using rule 27 (factor -> NUMBER .)
+    ENDIF           reduce using rule 27 (factor -> NUMBER .)
+
+
+state 26
+
+    (1) statement -> APPEND SEP ID . SEP expr
+    SEP             shift and go to state 47
+
+
+state 27
 
     (4) statement -> ID ASSIGN expr_list .
     $end            reduce using rule 4 (statement -> ID ASSIGN expr_list .)
 
 
-state 26
+state 28
 
     (6) expr_list -> expr SEP . expr_list
     (5) expr_list -> . expr
     (6) expr_list -> . expr SEP expr_list
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
     expr                           shift and go to state 9
-    expr_list                      shift and go to state 42
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
-
-state 27
-
-    (12) expr -> expr ADD_OP . term
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
-
-    term                           shift and go to state 43
-    factor                         shift and go to state 17
-
-state 28
-
-    (8) expr -> term COMPARE_OP . term
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
-
-    term                           shift and go to state 44
-    factor                         shift and go to state 17
+    expr_list                      shift and go to state 48
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 29
 
-    (9) expr -> term EQUAL_OP . term
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (8) expr -> expr OR . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
-    term                           shift and go to state 45
-    factor                         shift and go to state 17
+    expr                           shift and go to state 49
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 30
 
-    (15) term -> term MULT_OP . factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (9) expr -> expr AND . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
-    factor                         shift and go to state 46
+    expr                           shift and go to state 50
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 31
 
-    (10) expr -> IF expr . THEN expr ELSE expr ENDIF
-    (12) expr -> expr . ADD_OP term
-    THEN            shift and go to state 47
-    ADD_OP          shift and go to state 27
+    (15) expr -> expr ADD_OP . term
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    term                           shift and go to state 51
+    factor                         shift and go to state 18
 
 state 32
 
-    (17) factor -> ADD_OP factor .
-    COMPARE_OP      reduce using rule 17 (factor -> ADD_OP factor .)
-    EQUAL_OP        reduce using rule 17 (factor -> ADD_OP factor .)
-    MULT_OP         reduce using rule 17 (factor -> ADD_OP factor .)
-    SEP             reduce using rule 17 (factor -> ADD_OP factor .)
-    ADD_OP          reduce using rule 17 (factor -> ADD_OP factor .)
-    $end            reduce using rule 17 (factor -> ADD_OP factor .)
-    THEN            reduce using rule 17 (factor -> ADD_OP factor .)
-    COMMA           reduce using rule 17 (factor -> ADD_OP factor .)
-    RBRACKET        reduce using rule 17 (factor -> ADD_OP factor .)
-    RPAREN          reduce using rule 17 (factor -> ADD_OP factor .)
-    ELSE            reduce using rule 17 (factor -> ADD_OP factor .)
-    ENDIF           reduce using rule 17 (factor -> ADD_OP factor .)
+    (7) expr -> NOT expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for ADD_OP resolved as shift
+    SEP             reduce using rule 7 (expr -> NOT expr .)
+    $end            reduce using rule 7 (expr -> NOT expr .)
+    THEN            reduce using rule 7 (expr -> NOT expr .)
+    COMMA           reduce using rule 7 (expr -> NOT expr .)
+    RBRACKET        reduce using rule 7 (expr -> NOT expr .)
+    RPAREN          reduce using rule 7 (expr -> NOT expr .)
+    COMPARE_OP      reduce using rule 7 (expr -> NOT expr .)
+    EQUAL_OP        reduce using rule 7 (expr -> NOT expr .)
+    MULT_OP         reduce using rule 7 (expr -> NOT expr .)
+    ELSE            reduce using rule 7 (expr -> NOT expr .)
+    ENDIF           reduce using rule 7 (expr -> NOT expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
 
 state 33
 
-    (13) expr -> LAMBDA ID . ARROW expr_list
-    ARROW           shift and go to state 48
+    (11) expr -> term COMPARE_OP . term
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    term                           shift and go to state 52
+    factor                         shift and go to state 18
 
 state 34
 
-    (24) list -> LBRACKET comma_sep_list . RBRACKET
-    RBRACKET        shift and go to state 49
+    (12) expr -> term EQUAL_OP . term
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    term                           shift and go to state 53
+    factor                         shift and go to state 18
 
 state 35
 
-    (25) list -> LBRACKET RBRACKET .
-    SEP             reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    ADD_OP          reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    $end            reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    THEN            reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    COMMA           reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    RBRACKET        reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    RPAREN          reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    COMPARE_OP      reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    EQUAL_OP        reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    MULT_OP         reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    ELSE            reduce using rule 25 (list -> LBRACKET RBRACKET .)
-    ENDIF           reduce using rule 25 (list -> LBRACKET RBRACKET .)
+    (18) term -> term MULT_OP . factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    factor                         shift and go to state 54
 
 state 36
 
-    (26) comma_sep_list -> expr . COMMA comma_sep_list
-    (27) comma_sep_list -> expr .
-    (12) expr -> expr . ADD_OP term
-    COMMA           shift and go to state 50
-    RBRACKET        reduce using rule 27 (comma_sep_list -> expr .)
-    ADD_OP          shift and go to state 27
+    (13) expr -> IF expr . THEN expr ELSE expr ENDIF
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+    THEN            shift and go to state 55
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
 
 state 37
 
-    (16) factor -> SORT SEP . expr
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (21) factor -> ADD_OP factor .
+    COMPARE_OP      reduce using rule 21 (factor -> ADD_OP factor .)
+    EQUAL_OP        reduce using rule 21 (factor -> ADD_OP factor .)
+    MULT_OP         reduce using rule 21 (factor -> ADD_OP factor .)
+    SEP             reduce using rule 21 (factor -> ADD_OP factor .)
+    OR              reduce using rule 21 (factor -> ADD_OP factor .)
+    AND             reduce using rule 21 (factor -> ADD_OP factor .)
+    ADD_OP          reduce using rule 21 (factor -> ADD_OP factor .)
+    $end            reduce using rule 21 (factor -> ADD_OP factor .)
+    THEN            reduce using rule 21 (factor -> ADD_OP factor .)
+    COMMA           reduce using rule 21 (factor -> ADD_OP factor .)
+    RBRACKET        reduce using rule 21 (factor -> ADD_OP factor .)
+    RPAREN          reduce using rule 21 (factor -> ADD_OP factor .)
+    ELSE            reduce using rule 21 (factor -> ADD_OP factor .)
+    ENDIF           reduce using rule 21 (factor -> ADD_OP factor .)
 
-    expr                           shift and go to state 51
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 38
 
-    (18) factor -> TAIL SEP . expr
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (16) expr -> LAMBDA ID . ARROW expr_list
+    ARROW           shift and go to state 56
 
-    expr                           shift and go to state 52
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 39
 
-    (19) factor -> HEAD SEP . expr
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (28) list -> LBRACKET comma_sep_list . RBRACKET
+    RBRACKET        shift and go to state 57
 
-    expr                           shift and go to state 53
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 40
 
-    (20) factor -> LPAREN expr_list . RPAREN
-    RPAREN          shift and go to state 54
+    (29) list -> LBRACKET RBRACKET .
+    SEP             reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    OR              reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    AND             reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    ADD_OP          reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    $end            reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    THEN            reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    COMMA           reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    RBRACKET        reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    RPAREN          reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    COMPARE_OP      reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    EQUAL_OP        reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    MULT_OP         reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    ELSE            reduce using rule 29 (list -> LBRACKET RBRACKET .)
+    ENDIF           reduce using rule 29 (list -> LBRACKET RBRACKET .)
 
 
 state 41
 
-    (1) statement -> APPEND SEP ID SEP . expr
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (30) comma_sep_list -> expr . COMMA comma_sep_list
+    (31) comma_sep_list -> expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+    COMMA           shift and go to state 58
+    RBRACKET        reduce using rule 31 (comma_sep_list -> expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
-    expr                           shift and go to state 55
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 42
 
-    (6) expr_list -> expr SEP expr_list .
-    $end            reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    RPAREN          reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    COMPARE_OP      reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    EQUAL_OP        reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    MULT_OP         reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    SEP             reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    ADD_OP          reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    THEN            reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    COMMA           reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    RBRACKET        reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    ELSE            reduce using rule 6 (expr_list -> expr SEP expr_list .)
-    ENDIF           reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    (19) factor -> LENGTH SEP . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr                           shift and go to state 59
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 43
 
-    (12) expr -> expr ADD_OP term .
-    (15) term -> term . MULT_OP factor
-  ! shift/reduce conflict for MULT_OP resolved as shift
-    SEP             reduce using rule 12 (expr -> expr ADD_OP term .)
-    ADD_OP          reduce using rule 12 (expr -> expr ADD_OP term .)
-    $end            reduce using rule 12 (expr -> expr ADD_OP term .)
-    THEN            reduce using rule 12 (expr -> expr ADD_OP term .)
-    COMMA           reduce using rule 12 (expr -> expr ADD_OP term .)
-    RBRACKET        reduce using rule 12 (expr -> expr ADD_OP term .)
-    RPAREN          reduce using rule 12 (expr -> expr ADD_OP term .)
-    COMPARE_OP      reduce using rule 12 (expr -> expr ADD_OP term .)
-    EQUAL_OP        reduce using rule 12 (expr -> expr ADD_OP term .)
-    ELSE            reduce using rule 12 (expr -> expr ADD_OP term .)
-    ENDIF           reduce using rule 12 (expr -> expr ADD_OP term .)
-    MULT_OP         shift and go to state 30
+    (20) factor -> SORT SEP . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr                           shift and go to state 60
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 44
 
-    (8) expr -> term COMPARE_OP term .
-    (15) term -> term . MULT_OP factor
-  ! shift/reduce conflict for MULT_OP resolved as shift
-    SEP             reduce using rule 8 (expr -> term COMPARE_OP term .)
-    ADD_OP          reduce using rule 8 (expr -> term COMPARE_OP term .)
-    $end            reduce using rule 8 (expr -> term COMPARE_OP term .)
-    THEN            reduce using rule 8 (expr -> term COMPARE_OP term .)
-    COMMA           reduce using rule 8 (expr -> term COMPARE_OP term .)
-    RBRACKET        reduce using rule 8 (expr -> term COMPARE_OP term .)
-    RPAREN          reduce using rule 8 (expr -> term COMPARE_OP term .)
-    COMPARE_OP      reduce using rule 8 (expr -> term COMPARE_OP term .)
-    EQUAL_OP        reduce using rule 8 (expr -> term COMPARE_OP term .)
-    ELSE            reduce using rule 8 (expr -> term COMPARE_OP term .)
-    ENDIF           reduce using rule 8 (expr -> term COMPARE_OP term .)
-    MULT_OP         shift and go to state 30
+    (22) factor -> TAIL SEP . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr                           shift and go to state 61
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 45
 
-    (9) expr -> term EQUAL_OP term .
-    (15) term -> term . MULT_OP factor
-  ! shift/reduce conflict for MULT_OP resolved as shift
-    SEP             reduce using rule 9 (expr -> term EQUAL_OP term .)
-    ADD_OP          reduce using rule 9 (expr -> term EQUAL_OP term .)
-    $end            reduce using rule 9 (expr -> term EQUAL_OP term .)
-    THEN            reduce using rule 9 (expr -> term EQUAL_OP term .)
-    COMMA           reduce using rule 9 (expr -> term EQUAL_OP term .)
-    RBRACKET        reduce using rule 9 (expr -> term EQUAL_OP term .)
-    RPAREN          reduce using rule 9 (expr -> term EQUAL_OP term .)
-    COMPARE_OP      reduce using rule 9 (expr -> term EQUAL_OP term .)
-    EQUAL_OP        reduce using rule 9 (expr -> term EQUAL_OP term .)
-    ELSE            reduce using rule 9 (expr -> term EQUAL_OP term .)
-    ENDIF           reduce using rule 9 (expr -> term EQUAL_OP term .)
-    MULT_OP         shift and go to state 30
+    (23) factor -> HEAD SEP . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr                           shift and go to state 62
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 46
 
-    (15) term -> term MULT_OP factor .
-    COMPARE_OP      reduce using rule 15 (term -> term MULT_OP factor .)
-    EQUAL_OP        reduce using rule 15 (term -> term MULT_OP factor .)
-    MULT_OP         reduce using rule 15 (term -> term MULT_OP factor .)
-    SEP             reduce using rule 15 (term -> term MULT_OP factor .)
-    ADD_OP          reduce using rule 15 (term -> term MULT_OP factor .)
-    $end            reduce using rule 15 (term -> term MULT_OP factor .)
-    THEN            reduce using rule 15 (term -> term MULT_OP factor .)
-    COMMA           reduce using rule 15 (term -> term MULT_OP factor .)
-    RBRACKET        reduce using rule 15 (term -> term MULT_OP factor .)
-    RPAREN          reduce using rule 15 (term -> term MULT_OP factor .)
-    ELSE            reduce using rule 15 (term -> term MULT_OP factor .)
-    ENDIF           reduce using rule 15 (term -> term MULT_OP factor .)
+    (24) factor -> LPAREN expr_list . RPAREN
+    RPAREN          shift and go to state 63
 
 
 state 47
 
-    (10) expr -> IF expr THEN . expr ELSE expr ENDIF
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (1) statement -> APPEND SEP ID SEP . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
-    expr                           shift and go to state 56
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
+    expr                           shift and go to state 64
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 48
 
-    (13) expr -> LAMBDA ID ARROW . expr_list
-    (5) expr_list -> . expr
-    (6) expr_list -> . expr SEP expr_list
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (6) expr_list -> expr SEP expr_list .
+    $end            reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    RPAREN          reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    OR              reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    AND             reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    ADD_OP          reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    SEP             reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    THEN            reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    COMMA           reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    RBRACKET        reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    COMPARE_OP      reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    EQUAL_OP        reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    MULT_OP         reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    ELSE            reduce using rule 6 (expr_list -> expr SEP expr_list .)
+    ENDIF           reduce using rule 6 (expr_list -> expr SEP expr_list .)
 
-    expr_list                      shift and go to state 57
-    expr                           shift and go to state 9
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 49
 
-    (24) list -> LBRACKET comma_sep_list RBRACKET .
-    SEP             reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    ADD_OP          reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    $end            reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    THEN            reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    COMMA           reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    RBRACKET        reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    RPAREN          reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    COMPARE_OP      reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    EQUAL_OP        reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    MULT_OP         reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    ELSE            reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
-    ENDIF           reduce using rule 24 (list -> LBRACKET comma_sep_list RBRACKET .)
+    (8) expr -> expr OR expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for ADD_OP resolved as shift
+    SEP             reduce using rule 8 (expr -> expr OR expr .)
+    $end            reduce using rule 8 (expr -> expr OR expr .)
+    THEN            reduce using rule 8 (expr -> expr OR expr .)
+    COMMA           reduce using rule 8 (expr -> expr OR expr .)
+    RBRACKET        reduce using rule 8 (expr -> expr OR expr .)
+    RPAREN          reduce using rule 8 (expr -> expr OR expr .)
+    COMPARE_OP      reduce using rule 8 (expr -> expr OR expr .)
+    EQUAL_OP        reduce using rule 8 (expr -> expr OR expr .)
+    MULT_OP         reduce using rule 8 (expr -> expr OR expr .)
+    ELSE            reduce using rule 8 (expr -> expr OR expr .)
+    ENDIF           reduce using rule 8 (expr -> expr OR expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
 
 state 50
 
-    (26) comma_sep_list -> expr COMMA . comma_sep_list
-    (26) comma_sep_list -> . expr COMMA comma_sep_list
-    (27) comma_sep_list -> . expr
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (9) expr -> expr AND expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for ADD_OP resolved as shift
+    SEP             reduce using rule 9 (expr -> expr AND expr .)
+    $end            reduce using rule 9 (expr -> expr AND expr .)
+    THEN            reduce using rule 9 (expr -> expr AND expr .)
+    COMMA           reduce using rule 9 (expr -> expr AND expr .)
+    RBRACKET        reduce using rule 9 (expr -> expr AND expr .)
+    RPAREN          reduce using rule 9 (expr -> expr AND expr .)
+    COMPARE_OP      reduce using rule 9 (expr -> expr AND expr .)
+    EQUAL_OP        reduce using rule 9 (expr -> expr AND expr .)
+    MULT_OP         reduce using rule 9 (expr -> expr AND expr .)
+    ELSE            reduce using rule 9 (expr -> expr AND expr .)
+    ENDIF           reduce using rule 9 (expr -> expr AND expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
-    expr                           shift and go to state 36
-    comma_sep_list                 shift and go to state 58
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 51
 
-    (16) factor -> SORT SEP expr .
-    (12) expr -> expr . ADD_OP term
-  ! shift/reduce conflict for ADD_OP resolved as shift
-    COMPARE_OP      reduce using rule 16 (factor -> SORT SEP expr .)
-    EQUAL_OP        reduce using rule 16 (factor -> SORT SEP expr .)
-    MULT_OP         reduce using rule 16 (factor -> SORT SEP expr .)
-    SEP             reduce using rule 16 (factor -> SORT SEP expr .)
-    $end            reduce using rule 16 (factor -> SORT SEP expr .)
-    THEN            reduce using rule 16 (factor -> SORT SEP expr .)
-    COMMA           reduce using rule 16 (factor -> SORT SEP expr .)
-    RBRACKET        reduce using rule 16 (factor -> SORT SEP expr .)
-    RPAREN          reduce using rule 16 (factor -> SORT SEP expr .)
-    ELSE            reduce using rule 16 (factor -> SORT SEP expr .)
-    ENDIF           reduce using rule 16 (factor -> SORT SEP expr .)
-    ADD_OP          shift and go to state 27
+    (15) expr -> expr ADD_OP term .
+    (18) term -> term . MULT_OP factor
+  ! shift/reduce conflict for MULT_OP resolved as shift
+    SEP             reduce using rule 15 (expr -> expr ADD_OP term .)
+    OR              reduce using rule 15 (expr -> expr ADD_OP term .)
+    AND             reduce using rule 15 (expr -> expr ADD_OP term .)
+    ADD_OP          reduce using rule 15 (expr -> expr ADD_OP term .)
+    $end            reduce using rule 15 (expr -> expr ADD_OP term .)
+    THEN            reduce using rule 15 (expr -> expr ADD_OP term .)
+    COMMA           reduce using rule 15 (expr -> expr ADD_OP term .)
+    RBRACKET        reduce using rule 15 (expr -> expr ADD_OP term .)
+    RPAREN          reduce using rule 15 (expr -> expr ADD_OP term .)
+    COMPARE_OP      reduce using rule 15 (expr -> expr ADD_OP term .)
+    EQUAL_OP        reduce using rule 15 (expr -> expr ADD_OP term .)
+    ELSE            reduce using rule 15 (expr -> expr ADD_OP term .)
+    ENDIF           reduce using rule 15 (expr -> expr ADD_OP term .)
+    MULT_OP         shift and go to state 35
 
 
 state 52
 
-    (18) factor -> TAIL SEP expr .
-    (12) expr -> expr . ADD_OP term
-  ! shift/reduce conflict for ADD_OP resolved as shift
-    COMPARE_OP      reduce using rule 18 (factor -> TAIL SEP expr .)
-    EQUAL_OP        reduce using rule 18 (factor -> TAIL SEP expr .)
-    MULT_OP         reduce using rule 18 (factor -> TAIL SEP expr .)
-    SEP             reduce using rule 18 (factor -> TAIL SEP expr .)
-    $end            reduce using rule 18 (factor -> TAIL SEP expr .)
-    THEN            reduce using rule 18 (factor -> TAIL SEP expr .)
-    COMMA           reduce using rule 18 (factor -> TAIL SEP expr .)
-    RBRACKET        reduce using rule 18 (factor -> TAIL SEP expr .)
-    RPAREN          reduce using rule 18 (factor -> TAIL SEP expr .)
-    ELSE            reduce using rule 18 (factor -> TAIL SEP expr .)
-    ENDIF           reduce using rule 18 (factor -> TAIL SEP expr .)
-    ADD_OP          shift and go to state 27
+    (11) expr -> term COMPARE_OP term .
+    (18) term -> term . MULT_OP factor
+  ! shift/reduce conflict for MULT_OP resolved as shift
+    SEP             reduce using rule 11 (expr -> term COMPARE_OP term .)
+    OR              reduce using rule 11 (expr -> term COMPARE_OP term .)
+    AND             reduce using rule 11 (expr -> term COMPARE_OP term .)
+    ADD_OP          reduce using rule 11 (expr -> term COMPARE_OP term .)
+    $end            reduce using rule 11 (expr -> term COMPARE_OP term .)
+    THEN            reduce using rule 11 (expr -> term COMPARE_OP term .)
+    COMMA           reduce using rule 11 (expr -> term COMPARE_OP term .)
+    RBRACKET        reduce using rule 11 (expr -> term COMPARE_OP term .)
+    RPAREN          reduce using rule 11 (expr -> term COMPARE_OP term .)
+    COMPARE_OP      reduce using rule 11 (expr -> term COMPARE_OP term .)
+    EQUAL_OP        reduce using rule 11 (expr -> term COMPARE_OP term .)
+    ELSE            reduce using rule 11 (expr -> term COMPARE_OP term .)
+    ENDIF           reduce using rule 11 (expr -> term COMPARE_OP term .)
+    MULT_OP         shift and go to state 35
 
 
 state 53
 
-    (19) factor -> HEAD SEP expr .
-    (12) expr -> expr . ADD_OP term
-  ! shift/reduce conflict for ADD_OP resolved as shift
-    COMPARE_OP      reduce using rule 19 (factor -> HEAD SEP expr .)
-    EQUAL_OP        reduce using rule 19 (factor -> HEAD SEP expr .)
-    MULT_OP         reduce using rule 19 (factor -> HEAD SEP expr .)
-    SEP             reduce using rule 19 (factor -> HEAD SEP expr .)
-    $end            reduce using rule 19 (factor -> HEAD SEP expr .)
-    THEN            reduce using rule 19 (factor -> HEAD SEP expr .)
-    COMMA           reduce using rule 19 (factor -> HEAD SEP expr .)
-    RBRACKET        reduce using rule 19 (factor -> HEAD SEP expr .)
-    RPAREN          reduce using rule 19 (factor -> HEAD SEP expr .)
-    ELSE            reduce using rule 19 (factor -> HEAD SEP expr .)
-    ENDIF           reduce using rule 19 (factor -> HEAD SEP expr .)
-    ADD_OP          shift and go to state 27
+    (12) expr -> term EQUAL_OP term .
+    (18) term -> term . MULT_OP factor
+  ! shift/reduce conflict for MULT_OP resolved as shift
+    SEP             reduce using rule 12 (expr -> term EQUAL_OP term .)
+    OR              reduce using rule 12 (expr -> term EQUAL_OP term .)
+    AND             reduce using rule 12 (expr -> term EQUAL_OP term .)
+    ADD_OP          reduce using rule 12 (expr -> term EQUAL_OP term .)
+    $end            reduce using rule 12 (expr -> term EQUAL_OP term .)
+    THEN            reduce using rule 12 (expr -> term EQUAL_OP term .)
+    COMMA           reduce using rule 12 (expr -> term EQUAL_OP term .)
+    RBRACKET        reduce using rule 12 (expr -> term EQUAL_OP term .)
+    RPAREN          reduce using rule 12 (expr -> term EQUAL_OP term .)
+    COMPARE_OP      reduce using rule 12 (expr -> term EQUAL_OP term .)
+    EQUAL_OP        reduce using rule 12 (expr -> term EQUAL_OP term .)
+    ELSE            reduce using rule 12 (expr -> term EQUAL_OP term .)
+    ENDIF           reduce using rule 12 (expr -> term EQUAL_OP term .)
+    MULT_OP         shift and go to state 35
 
 
 state 54
 
-    (20) factor -> LPAREN expr_list RPAREN .
-    COMPARE_OP      reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    EQUAL_OP        reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    MULT_OP         reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    SEP             reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    ADD_OP          reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    $end            reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    THEN            reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    COMMA           reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    RBRACKET        reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    RPAREN          reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    ELSE            reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
-    ENDIF           reduce using rule 20 (factor -> LPAREN expr_list RPAREN .)
+    (18) term -> term MULT_OP factor .
+    COMPARE_OP      reduce using rule 18 (term -> term MULT_OP factor .)
+    EQUAL_OP        reduce using rule 18 (term -> term MULT_OP factor .)
+    MULT_OP         reduce using rule 18 (term -> term MULT_OP factor .)
+    SEP             reduce using rule 18 (term -> term MULT_OP factor .)
+    OR              reduce using rule 18 (term -> term MULT_OP factor .)
+    AND             reduce using rule 18 (term -> term MULT_OP factor .)
+    ADD_OP          reduce using rule 18 (term -> term MULT_OP factor .)
+    $end            reduce using rule 18 (term -> term MULT_OP factor .)
+    THEN            reduce using rule 18 (term -> term MULT_OP factor .)
+    COMMA           reduce using rule 18 (term -> term MULT_OP factor .)
+    RBRACKET        reduce using rule 18 (term -> term MULT_OP factor .)
+    RPAREN          reduce using rule 18 (term -> term MULT_OP factor .)
+    ELSE            reduce using rule 18 (term -> term MULT_OP factor .)
+    ENDIF           reduce using rule 18 (term -> term MULT_OP factor .)
 
 
 state 55
 
-    (1) statement -> APPEND SEP ID SEP expr .
-    (12) expr -> expr . ADD_OP term
-    $end            reduce using rule 1 (statement -> APPEND SEP ID SEP expr .)
-    ADD_OP          shift and go to state 27
+    (13) expr -> IF expr THEN . expr ELSE expr ENDIF
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr                           shift and go to state 65
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 56
 
-    (10) expr -> IF expr THEN expr . ELSE expr ENDIF
-    (12) expr -> expr . ADD_OP term
-    ELSE            shift and go to state 59
-    ADD_OP          shift and go to state 27
+    (16) expr -> LAMBDA ID ARROW . expr_list
+    (5) expr_list -> . expr
+    (6) expr_list -> . expr SEP expr_list
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr_list                      shift and go to state 66
+    expr                           shift and go to state 9
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 57
 
-    (13) expr -> LAMBDA ID ARROW expr_list .
-    SEP             reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    ADD_OP          reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    $end            reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    THEN            reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    COMMA           reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    RBRACKET        reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    RPAREN          reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    COMPARE_OP      reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    EQUAL_OP        reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    MULT_OP         reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    ELSE            reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
-    ENDIF           reduce using rule 13 (expr -> LAMBDA ID ARROW expr_list .)
+    (28) list -> LBRACKET comma_sep_list RBRACKET .
+    SEP             reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    OR              reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    AND             reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    ADD_OP          reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    $end            reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    THEN            reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    COMMA           reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    RBRACKET        reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    RPAREN          reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    COMPARE_OP      reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    EQUAL_OP        reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    MULT_OP         reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    ELSE            reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
+    ENDIF           reduce using rule 28 (list -> LBRACKET comma_sep_list RBRACKET .)
 
 
 state 58
 
-    (26) comma_sep_list -> expr COMMA comma_sep_list .
-    RBRACKET        reduce using rule 26 (comma_sep_list -> expr COMMA comma_sep_list .)
+    (30) comma_sep_list -> expr COMMA . comma_sep_list
+    (30) comma_sep_list -> . expr COMMA comma_sep_list
+    (31) comma_sep_list -> . expr
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
 
+    expr                           shift and go to state 41
+    comma_sep_list                 shift and go to state 67
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
 
 state 59
 
-    (10) expr -> IF expr THEN expr ELSE . expr ENDIF
-    (7) expr -> . list
-    (8) expr -> . term COMPARE_OP term
-    (9) expr -> . term EQUAL_OP term
-    (10) expr -> . IF expr THEN expr ELSE expr ENDIF
-    (11) expr -> . term
-    (12) expr -> . expr ADD_OP term
-    (13) expr -> . LAMBDA ID ARROW expr_list
-    (24) list -> . LBRACKET comma_sep_list RBRACKET
-    (25) list -> . LBRACKET RBRACKET
-    (14) term -> . factor
-    (15) term -> . term MULT_OP factor
-    (16) factor -> . SORT SEP expr
-    (17) factor -> . ADD_OP factor
-    (18) factor -> . TAIL SEP expr
-    (19) factor -> . HEAD SEP expr
-    (20) factor -> . LPAREN expr_list RPAREN
-    (21) factor -> . ID
-    (22) factor -> . STRING
-    (23) factor -> . NUMBER
-    IF              shift and go to state 12
-    LAMBDA          shift and go to state 14
-    LBRACKET        shift and go to state 16
-    SORT            shift and go to state 18
-    ADD_OP          shift and go to state 13
-    TAIL            shift and go to state 19
-    HEAD            shift and go to state 20
-    LPAREN          shift and go to state 21
-    ID              shift and go to state 15
-    STRING          shift and go to state 22
-    NUMBER          shift and go to state 23
+    (19) factor -> LENGTH SEP expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for ADD_OP resolved as shift
+    COMPARE_OP      reduce using rule 19 (factor -> LENGTH SEP expr .)
+    EQUAL_OP        reduce using rule 19 (factor -> LENGTH SEP expr .)
+    MULT_OP         reduce using rule 19 (factor -> LENGTH SEP expr .)
+    SEP             reduce using rule 19 (factor -> LENGTH SEP expr .)
+    $end            reduce using rule 19 (factor -> LENGTH SEP expr .)
+    THEN            reduce using rule 19 (factor -> LENGTH SEP expr .)
+    COMMA           reduce using rule 19 (factor -> LENGTH SEP expr .)
+    RBRACKET        reduce using rule 19 (factor -> LENGTH SEP expr .)
+    RPAREN          reduce using rule 19 (factor -> LENGTH SEP expr .)
+    ELSE            reduce using rule 19 (factor -> LENGTH SEP expr .)
+    ENDIF           reduce using rule 19 (factor -> LENGTH SEP expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
-    expr                           shift and go to state 60
-    list                           shift and go to state 10
-    term                           shift and go to state 11
-    factor                         shift and go to state 17
 
 state 60
 
-    (10) expr -> IF expr THEN expr ELSE expr . ENDIF
-    (12) expr -> expr . ADD_OP term
-    ENDIF           shift and go to state 61
-    ADD_OP          shift and go to state 27
+    (20) factor -> SORT SEP expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for ADD_OP resolved as shift
+    COMPARE_OP      reduce using rule 20 (factor -> SORT SEP expr .)
+    EQUAL_OP        reduce using rule 20 (factor -> SORT SEP expr .)
+    MULT_OP         reduce using rule 20 (factor -> SORT SEP expr .)
+    SEP             reduce using rule 20 (factor -> SORT SEP expr .)
+    $end            reduce using rule 20 (factor -> SORT SEP expr .)
+    THEN            reduce using rule 20 (factor -> SORT SEP expr .)
+    COMMA           reduce using rule 20 (factor -> SORT SEP expr .)
+    RBRACKET        reduce using rule 20 (factor -> SORT SEP expr .)
+    RPAREN          reduce using rule 20 (factor -> SORT SEP expr .)
+    ELSE            reduce using rule 20 (factor -> SORT SEP expr .)
+    ENDIF           reduce using rule 20 (factor -> SORT SEP expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
 
 
 state 61
 
-    (10) expr -> IF expr THEN expr ELSE expr ENDIF .
-    SEP             reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    ADD_OP          reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    $end            reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    THEN            reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    COMMA           reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    RBRACKET        reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    RPAREN          reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    COMPARE_OP      reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    EQUAL_OP        reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    MULT_OP         reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    ELSE            reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
-    ENDIF           reduce using rule 10 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    (22) factor -> TAIL SEP expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for ADD_OP resolved as shift
+    COMPARE_OP      reduce using rule 22 (factor -> TAIL SEP expr .)
+    EQUAL_OP        reduce using rule 22 (factor -> TAIL SEP expr .)
+    MULT_OP         reduce using rule 22 (factor -> TAIL SEP expr .)
+    SEP             reduce using rule 22 (factor -> TAIL SEP expr .)
+    $end            reduce using rule 22 (factor -> TAIL SEP expr .)
+    THEN            reduce using rule 22 (factor -> TAIL SEP expr .)
+    COMMA           reduce using rule 22 (factor -> TAIL SEP expr .)
+    RBRACKET        reduce using rule 22 (factor -> TAIL SEP expr .)
+    RPAREN          reduce using rule 22 (factor -> TAIL SEP expr .)
+    ELSE            reduce using rule 22 (factor -> TAIL SEP expr .)
+    ENDIF           reduce using rule 22 (factor -> TAIL SEP expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
+
+
+state 62
+
+    (23) factor -> HEAD SEP expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for ADD_OP resolved as shift
+    COMPARE_OP      reduce using rule 23 (factor -> HEAD SEP expr .)
+    EQUAL_OP        reduce using rule 23 (factor -> HEAD SEP expr .)
+    MULT_OP         reduce using rule 23 (factor -> HEAD SEP expr .)
+    SEP             reduce using rule 23 (factor -> HEAD SEP expr .)
+    $end            reduce using rule 23 (factor -> HEAD SEP expr .)
+    THEN            reduce using rule 23 (factor -> HEAD SEP expr .)
+    COMMA           reduce using rule 23 (factor -> HEAD SEP expr .)
+    RBRACKET        reduce using rule 23 (factor -> HEAD SEP expr .)
+    RPAREN          reduce using rule 23 (factor -> HEAD SEP expr .)
+    ELSE            reduce using rule 23 (factor -> HEAD SEP expr .)
+    ENDIF           reduce using rule 23 (factor -> HEAD SEP expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
+
+
+state 63
+
+    (24) factor -> LPAREN expr_list RPAREN .
+    COMPARE_OP      reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    EQUAL_OP        reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    MULT_OP         reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    SEP             reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    OR              reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    AND             reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    ADD_OP          reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    $end            reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    THEN            reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    COMMA           reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    RBRACKET        reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    RPAREN          reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    ELSE            reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+    ENDIF           reduce using rule 24 (factor -> LPAREN expr_list RPAREN .)
+
+
+state 64
+
+    (1) statement -> APPEND SEP ID SEP expr .
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+    $end            reduce using rule 1 (statement -> APPEND SEP ID SEP expr .)
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
+
+
+state 65
+
+    (13) expr -> IF expr THEN expr . ELSE expr ENDIF
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+    ELSE            shift and go to state 68
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
+
+
+state 66
+
+    (16) expr -> LAMBDA ID ARROW expr_list .
+    SEP             reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    OR              reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    AND             reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    ADD_OP          reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    $end            reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    THEN            reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    COMMA           reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    RBRACKET        reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    RPAREN          reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    COMPARE_OP      reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    EQUAL_OP        reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    MULT_OP         reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    ELSE            reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+    ENDIF           reduce using rule 16 (expr -> LAMBDA ID ARROW expr_list .)
+
+
+state 67
+
+    (30) comma_sep_list -> expr COMMA comma_sep_list .
+    RBRACKET        reduce using rule 30 (comma_sep_list -> expr COMMA comma_sep_list .)
+
+
+state 68
+
+    (13) expr -> IF expr THEN expr ELSE . expr ENDIF
+    (7) expr -> . NOT expr
+    (8) expr -> . expr OR expr
+    (9) expr -> . expr AND expr
+    (10) expr -> . list
+    (11) expr -> . term COMPARE_OP term
+    (12) expr -> . term EQUAL_OP term
+    (13) expr -> . IF expr THEN expr ELSE expr ENDIF
+    (14) expr -> . term
+    (15) expr -> . expr ADD_OP term
+    (16) expr -> . LAMBDA ID ARROW expr_list
+    (28) list -> . LBRACKET comma_sep_list RBRACKET
+    (29) list -> . LBRACKET RBRACKET
+    (17) term -> . factor
+    (18) term -> . term MULT_OP factor
+    (19) factor -> . LENGTH SEP expr
+    (20) factor -> . SORT SEP expr
+    (21) factor -> . ADD_OP factor
+    (22) factor -> . TAIL SEP expr
+    (23) factor -> . HEAD SEP expr
+    (24) factor -> . LPAREN expr_list RPAREN
+    (25) factor -> . ID
+    (26) factor -> . STRING
+    (27) factor -> . NUMBER
+    NOT             shift and go to state 10
+    IF              shift and go to state 13
+    LAMBDA          shift and go to state 15
+    LBRACKET        shift and go to state 17
+    LENGTH          shift and go to state 19
+    SORT            shift and go to state 20
+    ADD_OP          shift and go to state 14
+    TAIL            shift and go to state 21
+    HEAD            shift and go to state 22
+    LPAREN          shift and go to state 23
+    ID              shift and go to state 16
+    STRING          shift and go to state 24
+    NUMBER          shift and go to state 25
+
+    expr                           shift and go to state 69
+    list                           shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 18
+
+state 69
+
+    (13) expr -> IF expr THEN expr ELSE expr . ENDIF
+    (8) expr -> expr . OR expr
+    (9) expr -> expr . AND expr
+    (15) expr -> expr . ADD_OP term
+    ENDIF           shift and go to state 70
+    OR              shift and go to state 29
+    AND             shift and go to state 30
+    ADD_OP          shift and go to state 31
+
+
+state 70
+
+    (13) expr -> IF expr THEN expr ELSE expr ENDIF .
+    SEP             reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    OR              reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    AND             reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    ADD_OP          reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    $end            reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    THEN            reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    COMMA           reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    RBRACKET        reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    RPAREN          reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    COMPARE_OP      reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    EQUAL_OP        reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    MULT_OP         reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    ELSE            reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
+    ENDIF           reduce using rule 13 (expr -> IF expr THEN expr ELSE expr ENDIF .)
 
 
 Conflicts:
 
 shift/reduce conflict for SEP in state 9 resolved as shift
+shift/reduce conflict for OR in state 9 resolved as shift
+shift/reduce conflict for AND in state 9 resolved as shift
 shift/reduce conflict for ADD_OP in state 9 resolved as shift
-shift/reduce conflict for COMPARE_OP in state 11 resolved as shift
-shift/reduce conflict for EQUAL_OP in state 11 resolved as shift
-shift/reduce conflict for MULT_OP in state 11 resolved as shift
-shift/reduce conflict for MULT_OP in state 43 resolved as shift
-shift/reduce conflict for MULT_OP in state 44 resolved as shift
-shift/reduce conflict for MULT_OP in state 45 resolved as shift
-shift/reduce conflict for ADD_OP in state 51 resolved as shift
-shift/reduce conflict for ADD_OP in state 52 resolved as shift
-shift/reduce conflict for ADD_OP in state 53 resolved as shift
+shift/reduce conflict for COMPARE_OP in state 12 resolved as shift
+shift/reduce conflict for EQUAL_OP in state 12 resolved as shift
+shift/reduce conflict for MULT_OP in state 12 resolved as shift
+shift/reduce conflict for OR in state 32 resolved as shift
+shift/reduce conflict for AND in state 32 resolved as shift
+shift/reduce conflict for ADD_OP in state 32 resolved as shift
+shift/reduce conflict for OR in state 49 resolved as shift
+shift/reduce conflict for AND in state 49 resolved as shift
+shift/reduce conflict for ADD_OP in state 49 resolved as shift
+shift/reduce conflict for OR in state 50 resolved as shift
+shift/reduce conflict for AND in state 50 resolved as shift
+shift/reduce conflict for ADD_OP in state 50 resolved as shift
+shift/reduce conflict for MULT_OP in state 51 resolved as shift
+shift/reduce conflict for MULT_OP in state 52 resolved as shift
+shift/reduce conflict for MULT_OP in state 53 resolved as shift
+shift/reduce conflict for OR in state 59 resolved as shift
+shift/reduce conflict for AND in state 59 resolved as shift
+shift/reduce conflict for ADD_OP in state 59 resolved as shift
+shift/reduce conflict for OR in state 60 resolved as shift
+shift/reduce conflict for AND in state 60 resolved as shift
+shift/reduce conflict for ADD_OP in state 60 resolved as shift
+shift/reduce conflict for OR in state 61 resolved as shift
+shift/reduce conflict for AND in state 61 resolved as shift
+shift/reduce conflict for ADD_OP in state 61 resolved as shift
+shift/reduce conflict for OR in state 62 resolved as shift
+shift/reduce conflict for AND in state 62 resolved as shift
+shift/reduce conflict for ADD_OP in state 62 resolved as shift

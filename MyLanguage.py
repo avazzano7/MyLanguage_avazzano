@@ -192,7 +192,15 @@ class Value:
 				raise RuntimeError(f"Incompatible types for operation '{self.operation}': {lhs.dataType} and {rhs.dataType}")
 
 		elif self.dataType == 'id':
-			v = Value('id', {'id': self.id})
+			if self.id == 'true':
+				v = Value('bool', {'value': True})
+			elif self.id == 'false':
+				v = Value('bool', {'value': False})
+			elif self.id in valueLookup:
+				v = valueLookup[self.id].simplify(valueLookup)
+			else:
+				v = Value('id', {'id': self.id})
+
 		elif self.dataType == 'conditional':
 			condition = self.condition.simplify(valueLookup)
 			if condition.dataType == 'bool':
@@ -267,7 +275,8 @@ class MyLexer(Lexer):
 			   PRINT, DUMP,
 			   IF, THEN, ELSE, ENDIF,
 			   LBRACKET, RBRACKET, COMMA,
-			   HEAD, TAIL, SORT, APPEND }
+			   HEAD, TAIL, SORT, APPEND, LENGTH,
+			   AND, OR, NOT }
 
 	# String containing ignored characters
 	ignore = ' \t'
@@ -310,6 +319,10 @@ class MyLexer(Lexer):
 	ID['tail'] = TAIL
 	ID['sort'] = SORT
 	ID['append'] = APPEND
+	ID['length'] = LENGTH
+	ID['and'] = AND
+	ID['or'] = OR
+	ID['not'] = NOT
 
 	ignore_comment = r'\#.*'
 
@@ -564,6 +577,28 @@ class MyParser(Parser):
 				raise RuntimeError(f"Variable '{var_name}' is not a list")
 		else:
 			raise RuntimeError(f"Undefined variable: {var_name}")
+		
+	@_('LENGTH SEP expr')
+	def factor(self, p):
+		simplified = p.expr.simplify(self._values)
+		if simplified.dataType == 'list':
+			return Value('int', {'value': len(simplified.elements)})
+		elif simplified.dataType == 'string':
+			return Value('int', {'value': len(simplified.value)})
+		else:
+			raise RuntimeError(f"length applied to non-list: {simplified}")
+		
+	@_('expr AND expr')
+	def expr(self, p):
+		return Value('bool', {'value': p.expr0.simplify(self._values).value and p.expr1.simplify(self._values).value})
+	
+	@_('expr OR expr')
+	def expr(self, p):
+		return Value('bool', {'value': p.expr0.simplify(self._values).value or p.expr1.simplify(self._values).value})
+	
+	@_('NOT expr')
+	def expr(self, p):
+		return Value('bool', {'value': not p.expr.simplify(self._values).value})
 
 
 
