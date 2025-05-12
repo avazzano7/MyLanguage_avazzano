@@ -29,3 +29,8 @@ print head . 5
 ## Recursive Sorting
 nums := [5, 2, 9]
 print sort . nums
+
+
+# Strings
+greeting := "Hello, world!"
+print greeting

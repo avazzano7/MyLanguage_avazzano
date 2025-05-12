@@ -69,6 +69,8 @@ class Value:
 		
 		if dataType in ['int', 'bool']:
 			self.value = components['value']
+		elif dataType == 'string':
+			self.value = components['value']
 		elif dataType == 'expr':
 			self.expression = components['expression']
 		elif dataType == 'expr_list':
@@ -137,6 +139,8 @@ class Value:
 			
 		if self.dataType in ['int','bool']:
 			v = Value(self.dataType, {'value': self.value})
+		elif self.dataType == 'string':
+			v = Value('string', {'value': self.value})
 		elif self.dataType == 'expr':
 			v = Value('expr', {'expr': self.expression.simplify(valueLookup)})
 		elif self.dataType == 'expr_list':
@@ -206,6 +210,8 @@ class Value:
 	def __str__(self):
 		if self.dataType in ['int', 'bool']:
 			s = str(self.value)
+		elif self.dataType == 'string':
+			s = f'"{self.value}"'
 		elif self.dataType == 'expr':
 			s = str(self.expr)
 		elif self.dataType == 'expr_list':
@@ -231,6 +237,8 @@ class Value:
 			return f'Value(int, {self.value})'
 		elif self.dataType == 'bool':
 			return f'Value(bool, {self.value})'
+		elif self.dataType == 'string':
+			return f'Value(string, "{self.value}")'
 		elif self.dataType == 'expr':
 			return f'Value(expr, {repr(self.expr)})'
 		elif self.dataType == 'expr_list':
@@ -248,7 +256,7 @@ class Value:
 
 class MyLexer(Lexer):
 	# Set of token names.   This is always required
-	tokens = { NUMBER, ID,
+	tokens = { NUMBER, ID, STRING, 
 			   ADD_OP, MULT_OP, ASSIGN,
 			   LPAREN, RPAREN, SEP, ARROW, LAMBDA,
 			   EQUAL_OP, COMPARE_OP,
@@ -278,6 +286,11 @@ class MyLexer(Lexer):
 	@_(r'\d+')
 	def NUMBER(self, t):
 		t.value = int(t.value)
+		return t
+	
+	@_(r'"[^"\n]*"')
+	def STRING(self, t):
+		t.value = t.value[1:-1] # removes the quotes
 		return t
 
 	# Identifiers and keywords
@@ -427,6 +440,10 @@ class MyParser(Parser):
 	def factor(self, p):
 		if DEBUG: printGreen(f'Rule: factor -> NUMBER ({p.NUMBER})')
 		return Value('int', {'value': p.NUMBER})
+	
+	@_('STRING')
+	def factor(self, p):
+		return Value('string', {'value': p.STRING})
 		
 	@_('ID')
 	def factor(self, p):
@@ -499,7 +516,7 @@ class MyParser(Parser):
 		sorted_list = self.recursive_sort(simplified.elements)
 		return Value('list', {'elements': sorted_list})
 	
-	
+
 	def recursive_sort(self, elements):
 		if len(elements) <= 1:
 			return elements
